@@ -6,9 +6,10 @@
 #define i32 int32_t
 #define u8 uint8_t
 
-void Arena_init(Arena* arena)
+void Arena_init(Arena* arena, int DataSize)
 {
     memset(arena, 0, sizeof(Arena));
+	arena->Data = malloc(DataSize);
 }
 
 void* Arena_alloc(Arena* arena, u64 size)
@@ -18,9 +19,9 @@ void* Arena_alloc(Arena* arena, u64 size)
 	if (temp == NULL) return NULL;
 	arena->Pointers = temp;
 
-	void* temp2 = realloc(arena->Data, arena->DataSize + size);
-	if (temp2 == NULL) return NULL;
-	arena->Data = temp2;
+	//void* temp2 = realloc(arena->Data, arena->DataSize + size);
+	//if (temp2 == NULL) return NULL;
+	//arena->Data = temp2;
 
 	void* temp3 = realloc(arena->FreedPtrs, arena->PtrCount * sizeof(u8*));
 	if (temp3 == NULL) return NULL;
@@ -49,9 +50,9 @@ i32 Arena_free(Arena* arena, void* ptr)
 	{
 		u64 size = (arena->DataSize - (ptr - (void*)arena->Data));
 		arena->DataSize -= size;
-		void* temp = realloc(arena->Data, arena->DataSize);
-		if (temp == NULL) return -1;
-		arena->Data = temp;
+		//void* temp = realloc(arena->Data, arena->DataSize);
+		//if (temp == NULL) return -1;
+		//arena->Data = temp;
 
 		void* temp2 = realloc(arena->Pointers, --arena->PtrCount * sizeof(void*));
 		if (temp2 == NULL) return -1;
@@ -116,9 +117,9 @@ i32 Arena_RemoveSingle(Arena* arena, u64 idx)
 	{
 		u64 size = (arena->DataSize - (arena->Pointers[idx] - (void*)arena->Data));
 		arena->DataSize -= size;
-		void* temp = realloc(arena->Data, arena->DataSize);
-		if (temp == NULL) return -1;
-		arena->Data = temp;
+		//void* temp = realloc(arena->Data, arena->DataSize);
+		//if (temp == NULL) return -1;
+		//arena->Data = temp;
 
 		void* temp2 = realloc(arena->Pointers, --arena->PtrCount * sizeof(void*));
 		if (temp2 == NULL) return -1;
@@ -147,12 +148,12 @@ i32 Arena_RemoveSingle(Arena* arena, u64 idx)
 		arena->PtrCount--;
 		arena->DataSize -= size;
 
-		void* temp = realloc(arena->Data, arena->DataSize);
+		//void* temp = realloc(arena->Data, arena->DataSize);
 		void* temp2 = realloc(arena->Pointers, arena->PtrCount * sizeof(void*));
 		void* temp3 = realloc(arena->FreedPtrs, arena->PtrCount * sizeof(u8*));
 
-		if (temp == NULL || temp2 == NULL || temp3 == NULL) return -1;
-		arena->Data = temp;
+		if (temp2 == NULL || temp3 == NULL) return -1;
+		//arena->Data = temp;
 		arena->Pointers = temp2;
 		arena->FreedPtrs = temp3;
 	}

@@ -34,6 +34,7 @@ typedef struct {
 	struct ReadMap* ReadMap;
 	struct WriteMap* WriteMap;
 	long Count;
+	bool HasAny;
 } NodeMap;
 
 int32_t LoadPak(const char* path, CPak* proj, NodeMap* map);

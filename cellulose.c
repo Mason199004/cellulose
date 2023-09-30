@@ -17,6 +17,10 @@ u64 WriteNode(PakNode* node, FILE* file, u64 DataLoc, ArenaPtrMap* map, NodeMap*
 			return nodemap->WriteMap[i].Func(node, file, DataLoc, map);
 		}
 	}
+	if (nodemap->HasAny)
+	{
+		return nodemap->WriteMap[0].Func(node, file, DataLoc, map);
+	}
 	return 0;
 }
 
@@ -28,6 +32,10 @@ PakNode ReadNode(PakNode* node, FILE* file, ArenaPtrMap* map, NodeMap* nodemap)
 		{
 			return nodemap->ReadMap[i].Func(node, file, map);
 		}
+	}
+	if (nodemap->HasAny)
+	{
+		return nodemap->ReadMap[0].Func(node, file, map);
 	}
 	return (PakNode){.Name = "ERROR", .ValueOrPointer = NULL};
 }

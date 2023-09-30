@@ -28,6 +28,6 @@ void* Arena_realloc(Arena* arena, void* ptr, uint64_t newSize);
 
 ArenaPtrMap* Arena_Compact(Arena* arena);
 
-void Arena_init(Arena* arena);
+void Arena_init(Arena* arena, int Size);
 
 #endif //MAPLE_ARENA_H
